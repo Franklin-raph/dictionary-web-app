@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
-const Header = () => {
+const Header = ({ toggleBackground }) => {
     const [fontFamily, setFontFamily] = useState("Serif")
     const [keyword, setKeyword] = useState("")
 
@@ -8,6 +9,7 @@ const Header = () => {
     const [responseObject, setResponseObject] = useState({})
     const [meanings, setMeanings] = useState([])
     const [audio, setAudio] = useState("")
+    const [sourceUrl, setSourceUrl] = useState("")
 
     async function getMeaning(e) {
         e.preventDefault()
@@ -19,6 +21,8 @@ const Header = () => {
             setResponseObject(data[0])
             setMeanings(data[0].meanings)
             setAudio(data[0].phonetics[0].audio)
+            setSourceUrl(data[0].sourceUrls[0])
+
             if (!data[0].phonetics[0].audio) {
                 setAudio(data[0].phonetics[1].audio)
             }
@@ -26,18 +30,12 @@ const Header = () => {
             if (!data[0].phonetics[1].audio) {
                 setAudio(data[0].phonetics[2].audio)
             }
-
-            // if(!data[0].phonetics[2].audio){
-            //     setAudio(data[0].phonetics[1].audio)
-            // }
         }
 
         if (!response.ok) {
             setErrorMessage(data.title)
         }
-        console.log(data)
     }
-    console.log(audio)
 
     let audioPlayer = new Audio(audio)
     const startAudio = () => {
@@ -49,7 +47,14 @@ const Header = () => {
             <div className='flex items-center justify-between'>
                 <i className="ri-book-2-line text-gray-400 font-thin" style={{ fontSize: '2rem' }}></i>
                 <div className='flex items-center justify-center gap-8'>
-                    <p>{fontFamily}</p> <span className="text-gray-400 font-thin">|</span> <i className="ri-moon-line"></i>
+                    <p>{fontFamily}</p> <span className="text-gray-400 font-thin">|</span>
+                    <div className='flex items-center justify-center gap-2'>
+                        <label class="toggleDarkBtn">
+                            <input type="checkbox" onClick={toggleBackground} />
+                            <span class="slideBtnTg round"></span>
+                        </label>
+                        <i className="ri-moon-line"></i>
+                    </div>
                 </div>
             </div>
             <form onSubmit={getMeaning} className="relative block my-7">
@@ -62,7 +67,7 @@ const Header = () => {
                 <div className="flex justify-between items-center mb-7">
                     <div>
                         <h3 className="text-5xl font-bold text-gray-700">{responseObject && responseObject.word}</h3>
-                        <p className="text-purple-400 text-xl">{responseObject && responseObject.phonetic}</p>
+                        <p className="text-purple-400 text-xl pt-2">{responseObject && responseObject.phonetic}</p>
                     </div>
                     {audio ?
                         <div>
@@ -75,12 +80,35 @@ const Header = () => {
                 </div>
                 {meanings && meanings.map(meaning => (
                     <div>
-                        <p>
-                            {meaning.partOfSpeech}
-                        </p>
-                        {meaning.definitions.map(definition => (<li>{definition.definition}</li>))}
+                        <div className="flex items-center justify-center gap-5">
+                            <p className="font-bold my-6 text-2xl italic">
+                                {meaning.partOfSpeech}
+                            </p>
+                            <div className="h-0.5 bg-slate-200 w-full"></div>
+                        </div>
+                        <h5 className="text-gray-500 text-lg">Meaning</h5>
+                        <ul className="ml-9 mt-3">
+                            {meaning.definitions.map(definition => (
+                                <li className="list-disc text-purple-500">
+                                    <div className="text-black">
+                                        <p>{definition.definition}</p>
+                                        {definition.example && <p className="my-3 text-slate-600">"{definition.example}"</p>}
+
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                        {meaning.synonyms.length > 0 &&
+                            <div className="flex align-center gap-5 mt-7">
+                                <h3 className="text-gray-500 text-lg">Synonyms</h3>
+                                <p className="font-bold text-purple-600 text-lg">{meaning.synonyms}</p>
+                            </div>
+                        }
                     </div>
                 ))}
+                {sourceUrl &&
+                    <p className="text-gray-500 flex items-center">Source <Link to={sourceUrl} className="underline pl-4 pr-2">{sourceUrl}</Link> <i className="ri-external-link-fill"></i> </p>
+                }
             </div>
         </div>
     )

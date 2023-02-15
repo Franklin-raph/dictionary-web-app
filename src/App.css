@@ -1,3 +1,89 @@
 * {
     font-family: serif;
 }
+
+html,
+body {
+    height: 100vh;
+}
+
+.toggleDarkBtn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 18px;
+}
+
+.toggleDarkBtn input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slideBtnTg {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(109, 109, 109);
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+.slideBtnTg:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 3px;
+    bottom: 3px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    background-color: white;
+}
+
+input:checked+.slideBtnTg {
+    background-color: #1d1e1f;
+}
+
+input:focus+.slideBtnTg {
+    box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked+.slideBtnTg:before {
+    -webkit-transform: translateX(16px);
+    -ms-transform: translateX(16px);
+    transform: translateX(16px);
+}
+
+.slideBtnTg.round {
+    border-radius: 34px;
+}
+
+.slideBtnTg.round:before {
+    border-radius: 50%;
+}
+
+.dark input:checked+.slideBtnTg {
+    background-color: rgb(147 51 234);
+}
+
+
+.dark input {
+    color: #1d1e1f;
+}
+
+.dark ul p,
+.dark h3 {
+    color: #fff;
+}
+
+body:has(.dark) {
+    background-color: #1d1e1f;
+    color: #fff;
+    transition: .5s;
+}
