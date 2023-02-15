@@ -82,7 +82,7 @@ input:checked+.slideBtnTg:before {
     color: #fff;
 }
 
-body:has(.dark) {
+html:has(.dark) {
     background-color: #1d1e1f;
     color: #fff;
     transition: .5s;
