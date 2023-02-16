@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import LoadinGif from '../assets/images/65ba488626025cff82f091336fbf94bb.gif'
 
 const Header = ({ toggleBackground }) => {
     const [fontPallete, setFontPallete] = useState(false)
@@ -99,7 +100,7 @@ const Header = ({ toggleBackground }) => {
                 </span>
             </form>
             {
-                loading ? <h3>Loading...</h3> :
+                loading ? <img src={LoadinGif} alt="Loading Image..." /> :
                     <div className="textandAudio">
                         {errorMessage ? <p className="text-center px-4 py-2 bg-red-600 text-white">{errorMessage}</p> :
                             <>
