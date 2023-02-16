@@ -47,6 +47,9 @@ const Header = ({ toggleBackground }) => {
         if (!response.ok) {
             console.log(data.title)
             setErrorMessage(data.title)
+            setTimeout(() => {
+                setErrorMessage("")
+            }, 3000)
         }
     }
 
@@ -98,61 +101,65 @@ const Header = ({ toggleBackground }) => {
             {
                 loading ? <h3>Loading...</h3> :
                     <div className="textandAudio">
-                        {errorMessage && <p className="text-center px-4 py-2 bg-red-600 text-white">{errorMessage}</p>}
-                        <div className="flex justify-between items-center mb-7">
-                            <div>
-                                <h3 className="text-5xl font-bold text-gray-700">{responseObject && responseObject.word}</h3>
-                                <p className="text-purple-400 text-xl pt-2 font-[sans-serif]">{responseObject && responseObject.phonetic}</p>
-                            </div>
-                            {audio ?
-                                <div>
-                                    <i className="ri-volume-up-line text-purple-900 rounded-full p-4 bg-purple-200 text-xl cursor-pointer hover:bg-purple-300 transition-all" onClick={startAudio}></i>
-                                </div>
-                                :
-                                null
-                            }
+                        {errorMessage ? <p className="text-center px-4 py-2 bg-red-600 text-white">{errorMessage}</p> :
+                            <>
 
-                        </div>
-                        {meanings && meanings.map(meaning => (
-                            <div>
-                                <div className="flex items-center justify-center gap-5">
-                                    <p className="font-bold my-6 text-2xl italic">
-                                        {meaning.partOfSpeech}
-                                    </p>
-                                    <div className="h-0.5 bg-slate-200 w-full"></div>
-                                </div>
-                                <h5 className="text-gray-500 text-lg">Meaning</h5>
-                                <ul className="ml-9 mt-3">
-                                    {meaning.definitions.map(definition => (
-                                        <li className="list-disc text-purple-500">
-                                            <div className="text-black">
-                                                <p>{definition.definition}</p>
-                                                {definition.example && <p className="my-3 text-slate-600">"{definition.example}"</p>}
-
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                                {meaning.synonyms.length > 0 &&
-                                    <div className="flex align-center gap-5 mt-7">
-                                        <h3 className="text-gray-500 text-lg">Synonyms</h3>
-                                        <div className="flex flex-wrap gap-3">
-                                            {meaning.synonyms.map(synonym => (
-                                                <p className="font-bold text-purple-600 text-lg" key={synonym[synonym]}>{synonym}</p>
-                                            ))}
+                                <div className="flex justify-between items-center mb-7">
+                                    <div>
+                                        <h3 className="text-5xl font-bold text-gray-700">{responseObject && responseObject.word}</h3>
+                                        <p className="text-purple-400 text-xl pt-2 font-[sans-serif]">{responseObject && responseObject.phonetic}</p>
+                                    </div>
+                                    {audio ?
+                                        <div>
+                                            <i className="ri-volume-up-line text-purple-900 rounded-full p-4 bg-purple-200 text-xl cursor-pointer hover:bg-purple-300 transition-all" onClick={startAudio}></i>
                                         </div>
+                                        :
+                                        null
+                                    }
+
+                                </div>
+                                {meanings && meanings.map(meaning => (
+                                    <div>
+                                        <div className="flex items-center justify-center gap-5">
+                                            <p className="font-bold my-6 text-2xl italic">
+                                                {meaning.partOfSpeech}
+                                            </p>
+                                            <div className="h-0.5 bg-slate-200 w-full"></div>
+                                        </div>
+                                        <h5 className="text-gray-500 text-lg">Meaning</h5>
+                                        <ul className="ml-9 mt-3">
+                                            {meaning.definitions.map(definition => (
+                                                <li className="list-disc text-purple-500">
+                                                    <div className="text-black">
+                                                        <p>{definition.definition}</p>
+                                                        {definition.example && <p className="my-3 text-slate-600">"{definition.example}"</p>}
+
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        {meaning.synonyms.length > 0 &&
+                                            <div className="flex align-center gap-5 mt-7">
+                                                <h3 className="text-gray-500 text-lg">Synonyms</h3>
+                                                <div className="flex flex-wrap gap-3">
+                                                    {meaning.synonyms.map(synonym => (
+                                                        <p className="font-bold text-purple-600 text-lg" key={synonym[synonym]}>{synonym}</p>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                ))}
+                                {sourceUrl &&
+                                    <div className="text-gray-500 flex items-center mt-12 gap-4">
+                                        <p>Source</p>
+                                        <span className='hover:text-purple-600 flex items-center transition-all'>
+                                            <Link to={sourceUrl} className="underline pr-2">{sourceUrl}</Link>
+                                            <i className="ri-external-link-fill"></i>
+                                        </span>
                                     </div>
                                 }
-                            </div>
-                        ))}
-                        {sourceUrl &&
-                            <div className="text-gray-500 flex items-center mt-12 gap-4">
-                                <p>Source</p>
-                                <span className='hover:text-purple-600 flex items-center transition-all'>
-                                    <Link to={sourceUrl} className="underline pr-2">{sourceUrl}</Link>
-                                    <i className="ri-external-link-fill"></i>
-                                </span>
-                            </div>
+                            </>
                         }
                     </div>
             }
