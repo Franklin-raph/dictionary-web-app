@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Header = ({ toggleBackground }) => {
-    const [fontFamily, setFontFamily] = useState("Serif")
+    const [fontPallete, setFontPallete] = useState(false)
+    const [fonts, setFonts] = useState(['serif', 'sans-serif', 'monospace'])
+    const [currentFontFamily, setCurrentFontFamily] = useState(fonts[0])
     const [keyword, setKeyword] = useState("")
 
     const [errorMessage, setErrorMessage] = useState("")
@@ -42,36 +44,55 @@ const Header = ({ toggleBackground }) => {
         return audioPlayer.play()
     }
 
+    function changeFontFamily(e) {
+        setCurrentFontFamily(e.target.innerText)
+    }
+
+    function toggleFontPallete() {
+        setFontPallete(!fontPallete)
+    }
+
     return (
-        <div>
+        <div style={{ fontFamily: currentFontFamily }}>
             <div className='flex items-center justify-between'>
                 <i className="ri-book-2-line text-gray-400 font-thin" style={{ fontSize: '2rem' }}></i>
                 <div className='flex items-center justify-center gap-8'>
-                    <p>{fontFamily}</p> <span className="text-gray-400 font-thin">|</span>
+                    <div className="flex items-center gap-1 relative">
+                        <p>{currentFontFamily}</p>
+                        <i className="ri-arrow-down-s-line hover:cursor-pointer hover:text-purple-600" onClick={toggleFontPallete}></i>
+                        {fontPallete &&
+                            <ul className="absolute bg-slate-900 text-gray-200 top-6 z-10 p-3 rounded-md">
+                                {fonts.map(font => (
+                                    <li className='hover:cursor-pointer' onClick={changeFontFamily} key={font}>{font}</li>
+                                ))}
+                            </ul>
+                        }
+                    </div>
+                    <span className="text-gray-400 font-thin">|</span>
                     <div className='flex items-center justify-center gap-2'>
-                        <label class="toggleDarkBtn">
+                        <label className="toggleDarkBtn">
                             <input type="checkbox" onClick={toggleBackground} />
-                            <span class="slideBtnTg round"></span>
+                            <span className="slideBtnTg round"></span>
                         </label>
                         <i className="ri-moon-line"></i>
                     </div>
                 </div>
             </div>
             <form onSubmit={getMeaning} className="relative block my-7">
-                <input type="text" className="w-full bg-slate-100 py-2 px-4 rounded-md focus:outline-none" onChange={(e) => setKeyword(e.target.value)} />
+                <input type="text" className="w-full bg-slate-100 py-2 px-4 rounded-md focus:outline-none font-bold" onChange={(e) => setKeyword(e.target.value)} />
                 <span className="absolute top-0 bottom-1 right-3 flex items-center">
-                    <i className="ri-search-line h-5 w-5 text-purple-400"></i>
+                    <i className="ri-search-line h-5 w-5 text-purple-400" onClick={getMeaning} ></i>
                 </span>
             </form>
             <div className="textandAudio">
                 <div className="flex justify-between items-center mb-7">
                     <div>
                         <h3 className="text-5xl font-bold text-gray-700">{responseObject && responseObject.word}</h3>
-                        <p className="text-purple-400 text-xl pt-2">{responseObject && responseObject.phonetic}</p>
+                        <p className="text-purple-400 text-xl pt-2 font-[sans-serif]">{responseObject && responseObject.phonetic}</p>
                     </div>
                     {audio ?
                         <div>
-                            <i className="ri-volume-up-line text-purple-900 rounded-full p-4 bg-purple-200 text-xl" onClick={startAudio}></i>
+                            <i className="ri-volume-up-line text-purple-900 rounded-full p-4 bg-purple-200 text-xl cursor-pointer hover:bg-purple-300 transition-all" onClick={startAudio}></i>
                         </div>
                         :
                         null
@@ -101,13 +122,23 @@ const Header = ({ toggleBackground }) => {
                         {meaning.synonyms.length > 0 &&
                             <div className="flex align-center gap-5 mt-7">
                                 <h3 className="text-gray-500 text-lg">Synonyms</h3>
-                                <p className="font-bold text-purple-600 text-lg">{meaning.synonyms}</p>
+                                <div className="flex flex-wrap gap-3">
+                                    {meaning.synonyms.map(synonym => (
+                                        <p className="font-bold text-purple-600 text-lg" key={synonym[synonym]}>{synonym}</p>
+                                    ))}
+                                </div>
                             </div>
                         }
                     </div>
                 ))}
                 {sourceUrl &&
-                    <p className="text-gray-500 flex items-center">Source <Link to={sourceUrl} className="underline pl-4 pr-2">{sourceUrl}</Link> <i className="ri-external-link-fill"></i> </p>
+                    <div className="text-gray-500 flex items-center mt-12 gap-4">
+                        <p>Source</p>
+                        <span className='hover:text-purple-600 flex items-center transition-all'>
+                            <Link to={sourceUrl} className="underline pr-2">{sourceUrl}</Link>
+                            <i className="ri-external-link-fill"></i>
+                        </span>
+                    </div>
                 }
             </div>
         </div>

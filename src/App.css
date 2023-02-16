@@ -1,10 +1,7 @@
-* {
-    font-family: serif;
-}
-
 html,
 body {
     height: 100vh;
+    font-family: serif, sans-serif, monospace;
 }
 
 .toggleDarkBtn {
