@@ -9,9 +9,15 @@ const MainPage = () => {
     const [errorMessage, setErrorMessage] = useState("")
     const [loading, setLoading] = useState(false)
     const [audioFile, setAudioFIle] = useState("")
+    const fonts = ['serif', 'monospace', 'Poppins', 'Montserrat']
+    const [currentFontFamily, setCurrentFontFamily] = useState(fonts[0])
 
     function toggleBackground() {
         setDarkToggle(!darkToggle)
+    }
+
+    function changeFontFamily(e) {
+        setCurrentFontFamily(e.target.innerText)
     }
 
     async function getMeaning(e) {
@@ -49,8 +55,8 @@ const MainPage = () => {
     }
 
     return (
-        <div className={`lg:w-2/4 md:w-3/4 sm:w-full p-8 px-4 mx-auto wrapper ${darkToggle && 'dark'}`}>
-            <Header toggleBackground={toggleBackground} getMeaning={getMeaning} />
+        <div className={`lg:w-2/4 md:w-3/4 sm:w-full p-8 px-4 mx-auto wrapper ${darkToggle && 'dark'}`} style={{ fontFamily: currentFontFamily }}>
+            <Header toggleBackground={toggleBackground} getMeaning={getMeaning} currentFontFamily={currentFontFamily} fonts={fonts} changeFontFamily={changeFontFamily} darkToggle={darkToggle} />
             {loading ? <img src={LoadinGif} alt="Loading Image..." /> :
                 <>
                     {

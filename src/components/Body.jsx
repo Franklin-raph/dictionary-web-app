@@ -61,12 +61,12 @@ const Body = ({ dictionaryData, audioFile }) => {
                         </div>
                     ))}
                     {dictionaryData.sourceUrls &&
-                        <div className="text-gray-500 flex items-center mt-12 gap-4">
+                        <div className="text-gray-500 flex flex-col md:flex-row items-left mt-12 gap-4">
                             <p>Source</p>
-                            <span className='hover:text-purple-600 flex items-center transition-all'>
-                                <Link to={dictionaryData.sourceUrls[0]} target="_blank" className="underline pr-2">{dictionaryData.sourceUrls[0]}</Link>
+                            <p className="hover:text-purple-600 flex items-center transition-all">
+                                <Link to={dictionaryData.sourceUrls[0]} target="_blank" className="underline pr-2 ml-1 md:ml-0">{dictionaryData.sourceUrls[0]}</Link>
                                 <i className="ri-external-link-fill"></i>
-                            </span>
+                            </p>
                         </div>
                     }
                 </>
