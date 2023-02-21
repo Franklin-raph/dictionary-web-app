@@ -43,7 +43,6 @@ const Body = ({ dictionaryData, audioFile }) => {
                                         <div className="text-black">
                                             <p>{definition.definition}</p>
                                             {definition.example && <p className="my-3 text-slate-600">"{definition.example}"</p>}
-
                                         </div>
                                     </li>
                                 ))}
@@ -61,10 +60,10 @@ const Body = ({ dictionaryData, audioFile }) => {
                         </div>
                     ))}
                     {dictionaryData.sourceUrls &&
-                        <div className="text-gray-500 flex flex-col md:flex-row items-left mt-12 gap-4">
+                        <div className="text-gray-500 flex flex-col md:flex-row items-left mt-12 gap-0 md:gap-4">
                             <p>Source</p>
                             <p className="hover:text-purple-600 flex items-center transition-all">
-                                <Link to={dictionaryData.sourceUrls[0]} target="_blank" className="underline pr-2 ml-1 md:ml-0">{dictionaryData.sourceUrls[0]}</Link>
+                                <Link to={dictionaryData.sourceUrls[0]} target="_blank" className="underline pr-2">{dictionaryData.sourceUrls[0]}</Link>
                                 <i className="ri-external-link-fill"></i>
                             </p>
                         </div>
