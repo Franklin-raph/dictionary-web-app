@@ -26,7 +26,6 @@ const Body = ({ dictionaryData, audioFile }) => {
                             :
                             null
                         }
-
                     </div>
                     {meanings && meanings.map(meaning => (
                         <div>
@@ -42,7 +41,7 @@ const Body = ({ dictionaryData, audioFile }) => {
                                     <li className="list-disc text-purple-500">
                                         <div className="text-black">
                                             <p>{definition.definition}</p>
-                                            {definition.example && <p className="my-3 text-slate-600">"{definition.example}"</p>}
+                                            {definition.example && <p className="my-3 text-slate-600">example: "{definition.example}"</p>}
                                         </div>
                                     </li>
                                 ))}

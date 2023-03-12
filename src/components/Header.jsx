@@ -37,7 +37,7 @@ const Header = ({ toggleBackground, getMeaning, changeFontFamily, currentFontFam
                 </div>
             </div>
             <form onSubmit={e => getMeaning(e)} className="relative block my-7">
-                <input type="text" name='dictionaryKeyword' id='test' className="w-full bg-slate-100 py-2 px-4 rounded-md focus:outline-none font-bold" onChange={(e) => setKeyword(e.target.value)} />
+                <input type="search" name='dictionaryKeyword' id='test' className="w-full bg-slate-100 py-2 px-4 rounded-md focus:outline-none font-bold" onChange={(e) => setKeyword(e.target.value)} />
                 <span className="absolute top-0 bottom-1 right-3 flex items-center">
                     <i className="ri-search-line h-5 w-5 text-purple-600 hover:cursor-not-allowed"></i>
                 </span>
