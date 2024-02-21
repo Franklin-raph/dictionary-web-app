@@ -19,6 +19,10 @@ body {
     height: 0;
 }
 
+input::placeholder{
+    font-style: italic;
+}
+
 .slideBtnTg {
     position: absolute;
     cursor: pointer;
